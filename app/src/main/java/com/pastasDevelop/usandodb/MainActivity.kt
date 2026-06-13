@@ -64,6 +64,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun alterar() {
+        if (binding.etCod.text.toString().isEmpty()) {
+            Toast.makeText(this, "Código vazio", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         val cadastro = Cadastro(
             binding.etCod.text.toString().toInt(),
             binding.etNome.text.toString(),
