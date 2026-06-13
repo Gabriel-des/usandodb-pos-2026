@@ -1,5 +1,6 @@
 package com.pastasDevelop.usandodb
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -110,19 +111,21 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun listar() {
-        val registros = db.listar()
-
-        val saida = StringBuilder()
-
-        registros.forEach { cadastro ->
-            saida.append(cadastro.nome)
-            saida.append("\n")
-        }
-
-        Toast.makeText(
-            this,
-            saida.toString(),
-            Toast.LENGTH_LONG
-        ).show()
+        val intent = Intent(this, ListarActivity::class.java)
+        startActivity(intent)
+//        val registros = db.listar()
+//
+//        val saida = StringBuilder()
+//
+//        registros.forEach { cadastro ->
+//            saida.append(cadastro.nome)
+//            saida.append("\n")
+//        }
+//
+//        Toast.makeText(
+//            this,
+//            saida.toString(),
+//            Toast.LENGTH_LONG
+//        ).show()
     }
 }
