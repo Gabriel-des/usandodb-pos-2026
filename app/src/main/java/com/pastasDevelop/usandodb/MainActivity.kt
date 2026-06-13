@@ -1,6 +1,9 @@
 package com.pastasDevelop.usandodb
 
+import android.content.ContentValues
+import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -10,6 +13,7 @@ import com.pastasDevelop.usandodb.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var db: SQLiteDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,10 +28,90 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        binding.btIncluir.setOnClickListener {  }
-        binding.btAlterar.setOnClickListener {  }
-        binding.btExcluir.setOnClickListener {  }
-        binding.btPesquisar.setOnClickListener {  }
-        binding.btExcluir.setOnClickListener {  }
+        db = SQLiteDatabase.openOrCreateDatabase(
+            this.getDatabasePath("banco.db"),
+            null
+        )
+
+        db.execSQL("CREATE TABLE IF NOT EXISTS" +
+                " cadastro( _id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                " nome TEXT, telefone TEXT )")
+
+        binding.btIncluir.setOnClickListener {
+            incluir()
+        }
+        binding.btAlterar.setOnClickListener {
+            alterar()
+        }
+        binding.btExcluir.setOnClickListener {
+            excluir()
+        }
+        binding.btPesquisar.setOnClickListener {
+            pesquisar()
+        }
+        binding.btListar.setOnClickListener {
+            listar()
+        }
+    }
+
+    private fun incluir() {
+
+        val registro = ContentValues()
+
+        registro.put("nome", binding.etNome.text.toString())
+        registro.put("telefone", binding.etTelefone.text.toString())
+
+        db.insert("cadastro", null, registro)
+
+        Toast.makeText(
+            this,
+            "Inclusão realizada com sucesso",
+            Toast.LENGTH_LONG
+        ).show()
+
+    }
+
+    private fun alterar() {
+        val registro = ContentValues()
+
+        registro.put("nome", binding.etNome.text.toString())
+        registro.put("telefone", binding.etTelefone.text.toString())
+
+        db.update(
+            "cadastro",
+            registro,
+            "_id = ${binding.etCod.text}",
+            null
+        )
+
+        Toast.makeText(
+            this,
+            "Alteração realizada com sucesso",
+            Toast.LENGTH_LONG
+        ).show()
+    }
+
+    private fun excluir() {
+
+        db.delete(
+            "cadastro",
+            "_id = ${binding.etCod.text}",
+            null
+        )
+
+        Toast.makeText(
+            this,
+            "Exclusão realizada com sucesso",
+            Toast.LENGTH_LONG
+        ).show()
+
+    }
+
+    private fun pesquisar() {
+
+    }
+
+    private fun listar() {
+
     }
 }
