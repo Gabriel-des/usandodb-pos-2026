@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import com.pastasDevelop.usandodb.R
 import com.pastasDevelop.usandodb.entity.Cadastro
 
@@ -40,6 +41,7 @@ class ElementoListaAdapter(val context: Context, val registros: MutableList<Cada
         val tvNomeElementoLista = v.findViewById<TextView>(R.id.tvNomeElementoLista)
         val tvTelefoneElementoLista = v.findViewById<TextView>(R.id.tvTelefoneElementoLista)
         val imageView = v.findViewById<ImageView>(R.id.imageView)
+        val btEditarElementoLista = v.findViewById<ImageView>(R.id.btEditarElementoLista)
 
         if (position % 2 == 0) {
             imageView.setImageResource(android.R.drawable.star_on)
@@ -49,6 +51,14 @@ class ElementoListaAdapter(val context: Context, val registros: MutableList<Cada
 
         tvNomeElementoLista.text = registros[position].nome
         tvTelefoneElementoLista.text = registros[position].telefone
+
+        btEditarElementoLista.setOnClickListener {
+            Toast.makeText(
+                context,
+                "Editar ${registros[position].nome}",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
 
         return v
     }
