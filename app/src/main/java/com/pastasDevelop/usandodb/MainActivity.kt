@@ -130,6 +130,8 @@ class MainActivity : AppCompatActivity() {
             ).show()
         }
 
+        registro.close()
+
     }
 
     private fun listar() {
@@ -150,6 +152,8 @@ class MainActivity : AppCompatActivity() {
             saida.append(registro.getString(NOME))
             saida.append("\n")
         }
+
+        registro.close()
 
         Toast.makeText(
             this,
