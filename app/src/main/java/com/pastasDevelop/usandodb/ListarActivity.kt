@@ -28,6 +28,15 @@ class ListarActivity : AppCompatActivity() {
             insets
         }
 
+        binding.floatingActionButton.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+
         db = DatabaseHandler(this)
 
         val registros = db.listar()
@@ -38,10 +47,5 @@ class ListarActivity : AppCompatActivity() {
         )
 
         binding.lvCadastro.adapter = adapter
-
-        binding.floatingActionButton.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-        }
     }
 }
