@@ -2,7 +2,6 @@ package com.pastasDevelop.usandodb.database
 
 import android.content.ContentValues
 import android.content.Context
-import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import com.pastasDevelop.usandodb.entity.Cadastro
@@ -120,23 +119,6 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
         registro.close()
         return saida
 
-    }
-
-    fun listarCursor(): Cursor {
-
-        val db = this.writableDatabase
-
-        val registro = db.query(
-            TABLE_NAME,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null
-        )
-
-        return registro
     }
 
     companion object {
