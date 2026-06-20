@@ -1,6 +1,7 @@
 package com.pastasDevelop.usandodb
 
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -34,6 +35,9 @@ class MainActivity : AppCompatActivity() {
             binding.etCod.setText(intent.getIntExtra("id", 0).toString())
             binding.etNome.setText(intent.getStringExtra("nome"))
             binding.etTelefone.setText(intent.getStringExtra("telefone"))
+        } else {
+            binding.btExcluir.visibility = View.GONE
+            binding.btPesquisar.visibility = View.GONE
         }
 
         binding.btSalvar.setOnClickListener {

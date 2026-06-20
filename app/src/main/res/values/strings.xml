@@ -10,4 +10,5 @@
     <string name="listar">Listar</string>
     <string name="salvar">Salvar</string>
     <string name="editar">Editar</string>
+    <string name="adicionar">Adicionar\n</string>
 </resources>
