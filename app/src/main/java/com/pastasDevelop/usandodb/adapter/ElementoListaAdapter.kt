@@ -1,13 +1,15 @@
 package com.pastasDevelop.usandodb.adapter
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
+import com.pastasDevelop.usandodb.MainActivity
 import com.pastasDevelop.usandodb.R
 import com.pastasDevelop.usandodb.entity.Cadastro
 
@@ -40,24 +42,24 @@ class ElementoListaAdapter(val context: Context, val registros: MutableList<Cada
 
         val tvNomeElementoLista = v.findViewById<TextView>(R.id.tvNomeElementoLista)
         val tvTelefoneElementoLista = v.findViewById<TextView>(R.id.tvTelefoneElementoLista)
-        val imageView = v.findViewById<ImageView>(R.id.imageView)
+        val ibProfile = v.findViewById<ImageButton>(R.id.ibProfile)
         val btEditarElementoLista = v.findViewById<ImageView>(R.id.btEditarElementoLista)
 
         if (position % 2 == 0) {
-            imageView.setImageResource(android.R.drawable.star_on)
+            ibProfile.setImageResource(android.R.drawable.star_on)
         } else {
-            imageView.setImageResource(R.drawable.avatar)
+            ibProfile.setImageResource(R.drawable.avatar)
         }
 
         tvNomeElementoLista.text = registros[position].nome
         tvTelefoneElementoLista.text = registros[position].telefone
 
         btEditarElementoLista.setOnClickListener {
-            Toast.makeText(
-                context,
-                "Editar ${registros[position].nome}",
-                Toast.LENGTH_SHORT
-            ).show()
+            val intent = Intent(context, MainActivity::class.java)
+            intent.putExtra("id", registros[position].id)
+            intent.putExtra("nome", registros[position].nome)
+            intent.putExtra("telefone", registros[position].telefone)
+            context.startActivity(intent)
         }
 
         return v

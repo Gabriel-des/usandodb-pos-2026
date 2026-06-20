@@ -31,10 +31,13 @@ class MainActivity : AppCompatActivity() {
 
         db = DatabaseHandler(this)
 
-        binding.btIncluir.setOnClickListener {
-            incluir()
+        if (intent.getIntExtra("id", 0) > 0) {
+            binding.etCod.setText(intent.getIntExtra("id", 0).toString())
+            binding.etNome.setText(intent.getStringExtra("nome"))
+            binding.etTelefone.setText(intent.getStringExtra("telefone"))
         }
-        binding.btAlterar.setOnClickListener {
+
+        binding.btSalvar.setOnClickListener {
             alterar()
         }
         binding.btExcluir.setOnClickListener {
@@ -43,46 +46,36 @@ class MainActivity : AppCompatActivity() {
         binding.btPesquisar.setOnClickListener {
             pesquisar()
         }
-        binding.btListar.setOnClickListener {
-            listar()
-        }
-    }
-
-    private fun incluir() {
-        val cadastro = Cadastro(
-            0,
-            binding.etNome.text.toString(),
-            binding.etTelefone.text.toString()
-        )
-
-        db.incluir(cadastro)
-
-        Toast.makeText(
-            this,
-            "Inclusão realizada com sucesso",
-            Toast.LENGTH_LONG
-        ).show()
     }
 
     private fun alterar() {
-        if (binding.etCod.text.toString().isEmpty()) {
-            Toast.makeText(this, "Código vazio", Toast.LENGTH_SHORT).show()
-            return
+        val id = binding.etCod.text.toString().toIntOrNull()
+
+        if (id == null) {
+            val cadastro = Cadastro(
+                0,
+                binding.etNome.text.toString(),
+                binding.etTelefone.text.toString()
+            )
+
+            db.incluir(cadastro)
+        } else {
+            val cadastro = Cadastro(
+                binding.etCod.text.toString().toInt(),
+                binding.etNome.text.toString(),
+                binding.etTelefone.text.toString()
+            )
+
+            db.alterar(cadastro)
         }
-
-        val cadastro = Cadastro(
-            binding.etCod.text.toString().toInt(),
-            binding.etNome.text.toString(),
-            binding.etTelefone.text.toString()
-        )
-
-        db.alterar(cadastro)
 
         Toast.makeText(
             this,
-            "Alteração realizada com sucesso",
+            "Operação realizada com sucesso",
             Toast.LENGTH_LONG
         ).show()
+
+        finish()
     }
 
     private fun excluir() {
@@ -93,6 +86,8 @@ class MainActivity : AppCompatActivity() {
             "Exclusão realizada com sucesso",
             Toast.LENGTH_LONG
         ).show()
+
+        finish()
     }
 
     private fun pesquisar() {
@@ -108,24 +103,5 @@ class MainActivity : AppCompatActivity() {
                 Toast.LENGTH_LONG
             ).show()
         }
-    }
-
-    private fun listar() {
-        val intent = Intent(this, ListarActivity::class.java)
-        startActivity(intent)
-//        val registros = db.listar()
-//
-//        val saida = StringBuilder()
-//
-//        registros.forEach { cadastro ->
-//            saida.append(cadastro.nome)
-//            saida.append("\n")
-//        }
-//
-//        Toast.makeText(
-//            this,
-//            saida.toString(),
-//            Toast.LENGTH_LONG
-//        ).show()
     }
 }
