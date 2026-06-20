@@ -2,8 +2,10 @@ package com.pastasDevelop.usandodb
 
 import android.os.Bundle
 import android.view.View
+import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -94,17 +96,41 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun pesquisar() {
-        val cadastro = db.pesquisar(binding.etCod.text.toString().toInt())
 
-        if (cadastro != null) {
-            binding.etNome.setText(cadastro.nome)
-            binding.etTelefone.setText(cadastro.telefone)
-        } else {
-            Toast.makeText(
-                this,
-                "Nenhum registro encontrado",
-                Toast.LENGTH_LONG
-            ).show()
+        val etCodPesquisa = EditText(this)
+
+        val dialog = AlertDialog.Builder(this)
+        dialog.setTitle("Informe o código da pessoa")
+        dialog.setView(etCodPesquisa)
+        dialog.setCancelable(false)
+        dialog.setNegativeButton("Fechar", null)
+        dialog.setPositiveButton("Pesquisar", {
+                _, _ ->
+            val id = etCodPesquisa.text.toString().toIntOrNull()
+
+            if (id == null) {
+                Toast.makeText(
+                    this,
+                    "Informe um código válido",
+                    Toast.LENGTH_LONG
+                ).show()
+            } else {
+                val cadastro = db.pesquisar(id)
+
+                if (cadastro != null) {
+                    binding.etCod.setText(cadastro.id.toString())
+                    binding.etNome.setText(cadastro.nome)
+                    binding.etTelefone.setText(cadastro.telefone)
+                } else {
+                    Toast.makeText(
+                        this,
+                        "Nenhum registro encontrado",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
         }
+        )
+        dialog.show()
     }
 }
